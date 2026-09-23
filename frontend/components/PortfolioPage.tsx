@@ -22,6 +22,7 @@ import {
   X,
 } from "lucide-react";
 import { BookingForm } from "@/components/BookingForm";
+import { IntroductionVideo } from "@/components/IntroductionVideo";
 import { fetchPortfolio } from "@/lib/api";
 import type { PortfolioData } from "@/types/portfolio";
 
@@ -179,6 +180,29 @@ export function PortfolioPage() {
               <p className="mt-1 text-[11px] text-[#b9ddff]">{profile.title} · {profile.experienceLabel}</p>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className="relative px-5 pb-20 md:px-8 md:pb-24" aria-labelledby="introduction-title">
+        <div className="mx-auto grid max-w-[1280px] items-center gap-10 overflow-hidden rounded-[2.5rem] bg-[#0b1e33] p-7 text-white shadow-[0_24px_70px_rgba(11,30,51,0.15)] md:p-10 lg:grid-cols-[0.72fr_1.28fr] lg:gap-14 lg:p-14">
+          <div className="max-w-lg">
+            <p className="eyebrow-dark">A quick introduction</p>
+            <h2
+              className="mt-5 text-4xl font-extrabold leading-[0.98] tracking-[-0.055em] md:text-5xl"
+              id="introduction-title"
+            >
+              Meet the engineer behind the work.
+            </h2>
+            <p className="mt-6 text-sm leading-7 text-white/55 md:text-base">
+              A short personal introduction to the senior full-stack developer behind the products, systems, and delivery experience presented in this portfolio.
+            </p>
+            <div className="mt-8 flex items-center gap-3 text-xs font-semibold text-white/55">
+              <span className="size-2 rounded-full bg-emerald-400 shadow-[0_0_14px_rgba(52,211,153,0.75)]" />
+              The video starts muted when it enters your view.
+            </div>
+          </div>
+
+          <IntroductionVideo />
         </div>
       </section>
 

@@ -1,7 +1,12 @@
 import type { PortfolioData } from "@/types/portfolio";
 
+const configuredApiUrl = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "");
+
+// Production is hosted together with the Netlify Functions, so always use the
+// same-origin API path. This also prevents a local .env value from being baked
+// into the public production bundle.
 export const API_URL =
-  process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "") || "http://localhost:5000/api";
+  process.env.NODE_ENV === "production" ? "/api" : configuredApiUrl || "/api";
 
 export async function fetchPortfolio(signal?: AbortSignal): Promise<PortfolioData> {
   const response = await fetch(`${API_URL}/portfolio`, { signal });
@@ -14,4 +19,3 @@ export async function fetchPortfolio(signal?: AbortSignal): Promise<PortfolioDat
   const payload = await response.json();
   return payload.data;
 }
-

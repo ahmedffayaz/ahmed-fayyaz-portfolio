@@ -2,7 +2,6 @@
 
 import { FormEvent, useEffect, useState } from "react";
 import { ArrowUpRight, CheckCircle2, LoaderCircle } from "lucide-react";
-import { API_URL } from "@/lib/api";
 
 type FormStatus =
   | { type: "idle" }
@@ -47,21 +46,22 @@ export function BookingForm() {
     setStatus({ type: "loading" });
 
     try {
-      const response = await fetch(`${API_URL}/bookings`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...form,
-          preferredDate: new Date(`${form.preferredDate}T12:00:00`).toISOString(),
-        }),
+      const body = new URLSearchParams({
+        "form-name": "portfolio-booking",
+        "bot-field": "",
+        ...form,
       });
-      const payload = await response.json().catch(() => null);
+      const response = await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: body.toString(),
+      });
 
       if (!response.ok) {
-        throw new Error(payload?.message || "Unable to send your request.");
+        throw new Error("Unable to send your request.");
       }
 
-      setStatus({ type: "success", message: payload.message });
+      setStatus({ type: "success", message: "Thanks — your request was sent successfully." });
       setForm((current) => ({ ...initialForm, timezone: current.timezone }));
     } catch (error) {
       setStatus({
@@ -72,7 +72,20 @@ export function BookingForm() {
   }
 
   return (
-    <form className="grid gap-5" onSubmit={submitBooking}>
+    <form
+      className="grid gap-5"
+      data-netlify="true"
+      data-netlify-honeypot="bot-field"
+      method="POST"
+      name="portfolio-booking"
+      onSubmit={submitBooking}
+    >
+      <input name="form-name" type="hidden" value="portfolio-booking" />
+      <p className="hidden">
+        <label>
+          Do not fill this out: <input name="bot-field" tabIndex={-1} />
+        </label>
+      </p>
       <div className="grid gap-5 md:grid-cols-2">
         <Field label="Your name" required>
           <input

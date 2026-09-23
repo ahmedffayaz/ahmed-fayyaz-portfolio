@@ -3,6 +3,7 @@ import { app } from "./app.js";
 import { connectDatabase } from "./config/db.js";
 
 const port = Number(process.env.PORT) || 5000;
+const host = "0.0.0.0";
 
 async function startServer() {
   try {
@@ -12,8 +13,8 @@ async function startServer() {
     console.warn("Starting API with the verified local portfolio content.");
   }
 
-  const server = app.listen(port, () => {
-    console.log(`Portfolio API listening on http://localhost:${port}`);
+  const server = app.listen(port, host, () => {
+    console.log(`Portfolio API listening on http://${host}:${port}`);
   });
 
   const shutdown = (signal) => {
